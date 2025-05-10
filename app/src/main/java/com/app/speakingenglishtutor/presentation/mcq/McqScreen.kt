@@ -153,7 +153,6 @@ fun McqScreenContent(
         
         FeedbackBottomSheet(
             feedbackModel = feedbackModel,
-            onDismiss = { onEvent(McqEvent.HideFeedbackDialog) },
             onNextQuestion = {
                 onEvent(McqEvent.HideFeedbackDialog)
                 onEvent(McqEvent.NextQuestion)
