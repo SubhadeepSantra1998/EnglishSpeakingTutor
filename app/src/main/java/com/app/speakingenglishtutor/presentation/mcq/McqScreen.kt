@@ -1,5 +1,6 @@
 package com.app.speakingenglishtutor.presentation.mcq
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,7 +30,6 @@ import com.app.speakingenglishtutor.presentation.components.AppSubtitle
 import com.app.speakingenglishtutor.presentation.components.AppTitle
 import com.app.speakingenglishtutor.presentation.components.DifficultySelector
 import com.app.speakingenglishtutor.presentation.components.ErrorMessage
-import com.app.speakingenglishtutor.presentation.components.FeedbackCard
 import com.app.speakingenglishtutor.presentation.components.LoadingIndicator
 import com.app.speakingenglishtutor.presentation.components.FeedbackBottomSheet
 import com.app.speakingenglishtutor.presentation.components.OptionItem
@@ -129,8 +129,9 @@ fun McqScreenContent(
     
     // Show feedback bottom sheet when needed
     val currentQuestion = uiState.currentQuestion
-    if (uiState.showFeedbackDialog && currentQuestion != null && uiState.selectedOption != null) {
-        val isCorrect = uiState.isCorrectAnswer
+    if (uiState.showFeedbackDialog && currentQuestion != null) {
+        // For timer expired case, we might not have a selected option
+        val isCorrect = if (uiState.selectedOption != null) uiState.isCorrectAnswer else false
         val feedbackText = uiState.currentFeedback ?: ""
         val correctAnswer = currentQuestion.options[currentQuestion.answer] ?: ""
         
@@ -143,6 +144,12 @@ fun McqScreenContent(
             isTimeExpired = uiState.timerExpired,
             isLastQuestion = uiState.isLastQuestion
         )
+        
+        // Disable back button when feedback sheet is visible
+        BackHandler(enabled = true) {
+            // Do nothing - prevent back button from dismissing the sheet
+            // User must use the provided buttons to proceed
+        }
         
         FeedbackBottomSheet(
             feedbackModel = feedbackModel,
@@ -190,18 +197,6 @@ fun QuestionContent(
             )
             
             Spacer(modifier = Modifier.height(8.dp))
-        }
-        
-        Spacer(modifier = Modifier.height(16.dp))
-        
-        // Display feedback if an option is selected
-        if (uiState.showFeedback && uiState.selectedOption != null && uiState.currentFeedback != null) {
-            FeedbackCard(
-                feedbackText = uiState.currentFeedback ?: "",
-                isCorrect = uiState.isCorrectAnswer
-            )
-            
-            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }

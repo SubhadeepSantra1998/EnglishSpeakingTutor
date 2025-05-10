@@ -221,17 +221,12 @@ class McQViewModel @Inject constructor(
     }
     
     private fun handleTimerExpired() {
-        // If no answer was selected when timer expired, select a random incorrect answer
+        // When the timer expires, we don't want to select any option
+        // We just want to show the feedback dialog with the correct answer
         if (_uiState.value.selectedOption == null) {
-            val currentQuestion = _uiState.value.currentQuestion
-            val correctAnswer = currentQuestion?.answer
-            
-            // Find an incorrect option to select
-            val incorrectOption = currentQuestion?.options?.keys?.firstOrNull { it != correctAnswer } ?: "A"
-            
             _uiState.update { 
                 it.copy(
-                    selectedOption = incorrectOption,
+                    // Don't set selectedOption, just show the feedback
                     showFeedback = true,
                     timerExpired = true,
                     showFeedbackDialog = true

@@ -27,8 +27,13 @@ data class McqUiState(
         
     val currentFeedback: String?
         get() = currentQuestion?.let { question ->
-            selectedOption?.let { option -> 
-                question.feedback[option] ?: "" 
+            if (timerExpired && selectedOption == null) {
+                // When timer expires and no option is selected, show feedback for the correct answer
+                question.feedback[question.answer] ?: ""
+            } else {
+                selectedOption?.let { option -> 
+                    question.feedback[option] ?: "" 
+                }
             }
         }
         
