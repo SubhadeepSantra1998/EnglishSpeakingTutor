@@ -13,6 +13,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -34,6 +35,7 @@ import com.app.speakingenglishtutor.presentation.components.NavigationButtons
 import com.app.speakingenglishtutor.presentation.components.OptionItem
 import com.app.speakingenglishtutor.presentation.components.QuestionCard
 import com.app.speakingenglishtutor.presentation.components.QuestionCounter
+import com.app.speakingenglishtutor.presentation.components.TimerProgressIndicator
 import com.app.speakingenglishtutor.presentation.ui.theme.SpeakingEnglishTutorTheme
 
 @Composable
@@ -65,7 +67,18 @@ fun McqScreenContent(
             AppTitle(title = stringResource(id = R.string.mcq_app_title))
             Spacer(modifier = Modifier.height(8.dp))
             AppSubtitle(subtitle = stringResource(id = R.string.mcq_subtitle))
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
+            
+            // Timer progress indicator
+            if (!uiState.isLoading && uiState.questions.isNotEmpty()) {
+                TimerProgressIndicator(
+                    progress = uiState.timerProgress,
+                    difficulty = uiState.selectedDifficulty,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
+            
+            Spacer(modifier = Modifier.height(16.dp))
             
             DifficultySelector(
                 selectedDifficulty = uiState.selectedDifficulty,
@@ -82,7 +95,7 @@ fun McqScreenContent(
                 }
                 uiState.error != null -> {
                     ErrorMessage(
-                        errorText = uiState.error ?: stringResource(id = R.string.mcq_error_generic),
+                        errorText = uiState.error,
                         onRetryClick = { onEvent(McqEvent.LoadQuestions) },
                         modifier = Modifier.padding(top = 32.dp)
                     )
@@ -102,6 +115,13 @@ fun McqScreenContent(
                         uiState = uiState,
                         onEvent = onEvent
                     )
+                    
+                    // Start the timer if it's not running and not showing feedback
+                    if (!uiState.isTimerRunning && !uiState.showFeedback && !uiState.timerExpired) {
+                        LaunchedEffect(uiState.currentQuestionIndex) {
+                            onEvent(McqEvent.StartTimer)
+                        }
+                    }
                 }
             }
         }

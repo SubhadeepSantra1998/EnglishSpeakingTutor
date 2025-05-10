@@ -9,4 +9,9 @@ sealed class McqEvent {
     data object NextQuestion : McqEvent()
     data object ResetFeedback : McqEvent()
     data object RestartQuiz : McqEvent()
+    data object StartTimer : McqEvent()
+    data object PauseTimer : McqEvent()
+    data object ResumeTimer : McqEvent()
+    data class UpdateTimerProgress(val progress: Float) : McqEvent()
+    data object TimerExpired : McqEvent()
 }

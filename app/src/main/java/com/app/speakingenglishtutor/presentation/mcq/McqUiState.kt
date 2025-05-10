@@ -10,7 +10,10 @@ data class McqUiState(
     val selectedDifficulty: Difficulty = Difficulty.EASY,
     val selectedOption: String? = null,
     val error: String? = null,
-    val showFeedback: Boolean = false
+    val showFeedback: Boolean = false,
+    val timerProgress: Float = 1f,  // 1f means 100% (full), 0f means 0% (empty)
+    val isTimerRunning: Boolean = false,
+    val timerExpired: Boolean = false
 ) {
     val currentQuestion: GrammarQuestion?
         get() = questions.getOrNull(currentQuestionIndex)
@@ -23,4 +26,11 @@ data class McqUiState(
         
     val currentFeedback: String?
         get() = selectedOption?.let { option -> currentQuestion?.feedback?.get(option) }
+        
+    val questionTimerDuration: Long
+        get() = when(selectedDifficulty) {
+            Difficulty.EASY -> 30000L     // 30 seconds for easy questions
+            Difficulty.MEDIUM -> 20000L   // 20 seconds for medium questions
+            Difficulty.HARD -> 15000L     // 15 seconds for hard questions
+        }
 }
