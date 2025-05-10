@@ -9,6 +9,15 @@ A mobile application that helps users improve their English grammar skills throu
 - Detailed feedback for each answer option
 - Progress tracking through questions
 - Ability to restart the quiz
+- Timer progress indicator for each question based on difficulty:
+  - Easy: 30 seconds
+  - Medium: 20 seconds
+  - Hard: 15 seconds
+- Interactive feedback bottom sheet that displays:
+  - Whether the answer is correct or incorrect
+  - The correct answer when incorrect
+  - Detailed explanation
+  - Navigation options to continue or restart
 
 ## Setup Instructions
 
@@ -39,6 +48,7 @@ The project follows Clean Architecture principles with MVVM pattern:
 ## How to Use
 
 1. Select a difficulty level (Easy, Medium, or Hard)
-2. Answer the grammar questions by selecting the correct option
-3. Receive instant feedback on your answer
-4. Navigate to the next question or restart the quiz when finished
+2. Answer the grammar questions by selecting the correct option before the timer runs out
+3. Receive instant feedback via a bottom sheet showing whether your answer was correct
+4. If the timer expires before you select an answer, the feedback will show the correct answer
+5. Use the buttons in the feedback bottom sheet to navigate to the next question or restart the quiz

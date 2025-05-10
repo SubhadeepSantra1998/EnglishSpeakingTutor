@@ -13,7 +13,8 @@ data class McqUiState(
     val showFeedback: Boolean = false,
     val timerProgress: Float = 1f,  // 1f means 100% (full), 0f means 0% (empty)
     val isTimerRunning: Boolean = false,
-    val timerExpired: Boolean = false
+    val timerExpired: Boolean = false,
+    val showFeedbackDialog: Boolean = false
 ) {
     val currentQuestion: GrammarQuestion?
         get() = questions.getOrNull(currentQuestionIndex)
@@ -25,7 +26,11 @@ data class McqUiState(
         get() = selectedOption == currentQuestion?.answer
         
     val currentFeedback: String?
-        get() = selectedOption?.let { option -> currentQuestion?.feedback?.get(option) }
+        get() = currentQuestion?.let { question ->
+            selectedOption?.let { option -> 
+                question.feedback[option] ?: "" 
+            }
+        }
         
     val questionTimerDuration: Long
         get() = when(selectedDifficulty) {

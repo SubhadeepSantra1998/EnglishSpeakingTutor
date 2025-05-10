@@ -14,4 +14,6 @@ sealed class McqEvent {
     data object ResumeTimer : McqEvent()
     data class UpdateTimerProgress(val progress: Float) : McqEvent()
     data object TimerExpired : McqEvent()
+    data object ShowFeedbackDialog : McqEvent()
+    data object HideFeedbackDialog : McqEvent()
 }

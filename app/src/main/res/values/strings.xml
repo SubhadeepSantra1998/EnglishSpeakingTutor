@@ -22,4 +22,9 @@
     <string name="mcq_next_question">Next Question</string>
     <string name="mcq_restart_quiz">Restart Quiz</string>
     <string name="mcq_retry">Retry</string>
+    <string name="mcq_feedback_correct">Correct!</string>
+    <string name="mcq_feedback_incorrect">Incorrect</string>
+    <string name="mcq_timer_expired">Time\'s up!</string>
+    <string name="mcq_correct_answer">Correct Answer: %1$s</string>
+    <string name="mcq_got_it">GOT IT</string>
 </resources>

@@ -43,6 +43,8 @@ class McQViewModel @Inject constructor(
             is McqEvent.ResumeTimer -> resumeTimer()
             is McqEvent.UpdateTimerProgress -> updateTimerProgress(event.progress)
             is McqEvent.TimerExpired -> handleTimerExpired()
+            is McqEvent.ShowFeedbackDialog -> showFeedbackDialog()
+            is McqEvent.HideFeedbackDialog -> hideFeedbackDialog()
         }
     }
 
@@ -91,14 +93,33 @@ class McQViewModel @Inject constructor(
 
     private fun selectAnswer(option: String) {
         if (!_uiState.value.showFeedback) {
-            pauseTimer() // Pause the timer when an answer is selected
-            _uiState.update { it.copy(selectedOption = option, showFeedback = true) }
+            val currentQuestion = _uiState.value.currentQuestion
+            
+            if (currentQuestion != null) {
+                // Pause the timer when an answer is selected
+                pauseTimer()
+                
+                // Update the state - just set the selectedOption and showFeedback
+                // isCorrectAnswer and currentFeedback are computed properties in McqUiState
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        selectedOption = option,
+                        showFeedback = true
+                    )
+                }
+                
+                // Show the feedback dialog
+                showFeedbackDialog()
+            }
         }
     }
 
     private fun moveToNextQuestion() {
         val currentIndex = _uiState.value.currentQuestionIndex
         val questionsSize = _uiState.value.questions.size
+        
+        // Hide the feedback dialog first
+        hideFeedbackDialog()
         
         if (currentIndex < questionsSize - 1) {
             _uiState.update {
@@ -121,6 +142,10 @@ class McQViewModel @Inject constructor(
 
     private fun restartQuiz() {
         pauseTimer() // Stop any running timer
+        
+        // Hide the feedback dialog first
+        hideFeedbackDialog()
+        
         _uiState.update {
             it.copy(
                 currentQuestionIndex = 0,
@@ -207,14 +232,27 @@ class McQViewModel @Inject constructor(
             _uiState.update { 
                 it.copy(
                     selectedOption = incorrectOption,
-                    showFeedback = true
+                    showFeedback = true,
+                    timerExpired = true,
+                    showFeedbackDialog = true
                 )
             }
+        } else {
+            // If an answer was already selected, just make sure the dialog is shown
+            showFeedbackDialog()
         }
     }
     
     override fun onCleared() {
         super.onCleared()
         timerJob?.cancel()
+    }
+    
+    private fun showFeedbackDialog() {
+        _uiState.update { it.copy(showFeedbackDialog = true) }
+    }
+    
+    private fun hideFeedbackDialog() {
+        _uiState.update { it.copy(showFeedbackDialog = false) }
     }
 }

@@ -172,7 +172,7 @@ fun DifficultySelector(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     ) {
-        Difficulty.values().forEach { difficulty ->
+        Difficulty.entries.forEach { difficulty ->
             OutlinedButton(
                 onClick = { onDifficultySelected(difficulty) },
                 modifier = Modifier.padding(horizontal = 4.dp),

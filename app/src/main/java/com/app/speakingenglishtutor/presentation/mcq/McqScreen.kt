@@ -31,7 +31,7 @@ import com.app.speakingenglishtutor.presentation.components.DifficultySelector
 import com.app.speakingenglishtutor.presentation.components.ErrorMessage
 import com.app.speakingenglishtutor.presentation.components.FeedbackCard
 import com.app.speakingenglishtutor.presentation.components.LoadingIndicator
-import com.app.speakingenglishtutor.presentation.components.NavigationButtons
+import com.app.speakingenglishtutor.presentation.components.FeedbackBottomSheet
 import com.app.speakingenglishtutor.presentation.components.OptionItem
 import com.app.speakingenglishtutor.presentation.components.QuestionCard
 import com.app.speakingenglishtutor.presentation.components.QuestionCounter
@@ -126,6 +126,37 @@ fun McqScreenContent(
             }
         }
     }
+    
+    // Show feedback bottom sheet when needed
+    val currentQuestion = uiState.currentQuestion
+    if (uiState.showFeedbackDialog && currentQuestion != null && uiState.selectedOption != null) {
+        val isCorrect = uiState.isCorrectAnswer
+        val feedbackText = uiState.currentFeedback ?: ""
+        val correctAnswer = currentQuestion.options[currentQuestion.answer] ?: ""
+        
+        // Create the feedback sheet model
+        val feedbackModel = FeedbackSheetModel(
+            isVisible = true,
+            isCorrect = isCorrect,
+            feedbackText = feedbackText,
+            correctAnswer = correctAnswer,
+            isTimeExpired = uiState.timerExpired,
+            isLastQuestion = uiState.isLastQuestion
+        )
+        
+        FeedbackBottomSheet(
+            feedbackModel = feedbackModel,
+            onDismiss = { onEvent(McqEvent.HideFeedbackDialog) },
+            onNextQuestion = {
+                onEvent(McqEvent.HideFeedbackDialog)
+                onEvent(McqEvent.NextQuestion)
+            },
+            onRestartQuiz = {
+                onEvent(McqEvent.HideFeedbackDialog)
+                onEvent(McqEvent.RestartQuiz)
+            }
+        )
+    }
 }
 
 @Composable
@@ -172,14 +203,6 @@ fun QuestionContent(
             
             Spacer(modifier = Modifier.height(16.dp))
         }
-        
-        // Navigation buttons
-        NavigationButtons(
-            onNextClick = { onEvent(McqEvent.NextQuestion) },
-            onRestartClick = { onEvent(McqEvent.RestartQuiz) },
-            showRestartButton = uiState.isLastQuestion && uiState.showFeedback,
-            enableNextButton = !uiState.isLastQuestion && uiState.showFeedback
-        )
     }
 }
 
