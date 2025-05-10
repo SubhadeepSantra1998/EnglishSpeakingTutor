@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">SpeakingEnglishTutor</string>
+    <string name="action_go">Go</string>
+    <string name="baking_title">Baking with Gemini</string>
+    <string name="label_prompt">Prompt</string>
+    <string name="prompt_placeholder">Provide a recipe for the baked goods in the image</string>
+    <string name="image1_description">Cupcake</string>
+    <string name="image2_description">Cookies</string>
+    <string name="image3_description">Cake</string>
+    <string name="results_placeholder">(Results will appear here)</string>
+    
+    <!-- MCQ Screen -->
+    <string name="mcq_app_title">English Speaking Tutor</string>
+    <string name="mcq_subtitle">Grammar Practice</string>
+    <string name="mcq_difficulty_easy">Easy</string>
+    <string name="mcq_difficulty_medium">Medium</string>
+    <string name="mcq_difficulty_hard">Hard</string>
+    <string name="mcq_loading">Loading questions…</string>
+    <string name="mcq_error_generic">An error occurred</string>
+    <string name="mcq_no_questions">No questions available. Try changing the difficulty level.</string>
+    <string name="mcq_question_counter">Question %1$d of %2$d</string>
+    <string name="mcq_next_question">Next Question</string>
+    <string name="mcq_restart_quiz">Restart Quiz</string>
+    <string name="mcq_retry">Retry</string>
+</resources>
