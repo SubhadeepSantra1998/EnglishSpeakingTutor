@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.app.speakingenglishtutor.R
 import com.app.speakingenglishtutor.data.model.Difficulty
 import com.app.speakingenglishtutor.data.model.GrammarQuestion
@@ -36,10 +36,11 @@ import com.app.speakingenglishtutor.presentation.components.OptionItem
 import com.app.speakingenglishtutor.presentation.components.QuestionCard
 import com.app.speakingenglishtutor.presentation.components.QuestionCounter
 import com.app.speakingenglishtutor.presentation.components.TimerProgressIndicator
+import com.app.speakingenglishtutor.presentation.mcq.component.FeedbackSheetModel
 import com.app.speakingenglishtutor.presentation.ui.theme.SpeakingEnglishTutorTheme
 
 @Composable
-fun McqScreen(viewModel: McQViewModel = viewModel()) {
+fun McqScreen(viewModel: McQViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
     McqScreenContent(
         uiState = uiState,

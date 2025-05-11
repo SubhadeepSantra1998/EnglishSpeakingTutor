@@ -25,7 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.app.speakingenglishtutor.R
-import com.app.speakingenglishtutor.presentation.mcq.FeedbackSheetModel
+import com.app.speakingenglishtutor.presentation.mcq.component.FeedbackSheetModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

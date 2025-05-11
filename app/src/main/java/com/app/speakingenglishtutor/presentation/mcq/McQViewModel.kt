@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.app.speakingenglishtutor.data.model.Difficulty
 import com.app.speakingenglishtutor.domain.usecase.GetGrammarQuestionsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import jakarta.inject.Inject
+import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive

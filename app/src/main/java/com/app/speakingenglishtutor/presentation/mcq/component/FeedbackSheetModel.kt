@@ -1,4 +1,4 @@
-package com.app.speakingenglishtutor.presentation.mcq
+package com.app.speakingenglishtutor.presentation.mcq.component
 
 data class FeedbackSheetModel(
     val isVisible: Boolean = false,
